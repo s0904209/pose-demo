@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>姿勢分析 DEMO</title>
+  <script type="module" src="main.js"></script>
+  <style>
+    video, canvas { width: 100%; max-width: 480px; border: 1px solid #ccc; }
+    #result { font-size: 18px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2>MediaPipe 姿勢分析 DEMO</h2>
+  <video id="video" autoplay playsinline></video>
+  <canvas id="output"></canvas>
+  <div id="result">🔍 請站好，我們正在分析姿勢...</div>
+</body>
+</html>
