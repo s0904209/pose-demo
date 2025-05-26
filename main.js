@@ -55,4 +55,10 @@ const camera = new Camera(video, {
   height: 360,
   facingMode: 'environment'
 });
-camera.start();
+
+// ✅ 加上錯誤處理
+camera.start().catch((err) => {
+  alert("🚫 無法啟用鏡頭，請確認是否已授權或裝置支援！");
+  resultDiv.innerText = "⚠️ 鏡頭啟用失敗，請確認權限或使用支援的裝置";
+  console.error("Camera start failed:", err);
+});
