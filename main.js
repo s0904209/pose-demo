@@ -48,7 +48,8 @@ pose.onResults(results => {
   }
 });
 
-const camera = new CameraUtils.Camera(video, {
+// ✅ 修正：直接使用 Camera（不是 CameraUtils.Camera）
+const camera = new Camera(video, {
   onFrame: async () => await pose.send({ image: video }),
   width: 480,
   height: 360,
