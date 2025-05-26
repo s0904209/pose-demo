@@ -1,7 +1,3 @@
-import { Pose } from 'https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5/pose.js';
-import { Camera } from 'https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js';
-import { drawConnectors, drawLandmarks } from 'https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js';
-
 const video = document.getElementById('video');
 const canvas = document.getElementById('output');
 const ctx = canvas.getContext('2d');
@@ -26,7 +22,7 @@ function analyzePose(landmarks) {
   return "✅ 姿勢良好，可定期保養";
 }
 
-const pose = new Pose({
+const pose = new Pose.Pose({
   locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5/${file}`
 });
 
@@ -51,9 +47,10 @@ pose.onResults(results => {
   }
 });
 
-const camera = new Camera(video, {
+const camera = new CameraUtils.Camera(video, {
   onFrame: async () => await pose.send({ image: video }),
   width: 480,
-  height: 360
+  height: 360,
+  facingMode: 'environment'
 });
 camera.start();
