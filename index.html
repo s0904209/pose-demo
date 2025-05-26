@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>姿勢分析 DEMO</title>
-  <script type="module" src="main.js"></script>
   <style>
     video, canvas { width: 100%; max-width: 480px; border: 1px solid #ccc; }
     #result { font-size: 18px; margin-top: 10px; }
@@ -14,5 +13,13 @@
   <video id="video" autoplay playsinline></video>
   <canvas id="output"></canvas>
   <div id="result">🔍 請站好，我們正在分析姿勢...</div>
+
+  <!-- MediaPipe libs via script -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5/pose.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+
+  <!-- your main script -->
+  <script src="main.js"></script>
 </body>
 </html>
