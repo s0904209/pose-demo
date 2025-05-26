@@ -22,7 +22,8 @@ function analyzePose(landmarks) {
   return "✅ 姿勢良好，可定期保養";
 }
 
-const pose = new Pose.Pose({
+// ✅ 修正這一行：直接用 Pose 而不是 Pose.Pose
+const pose = new Pose({
   locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5/${file}`
 });
 
