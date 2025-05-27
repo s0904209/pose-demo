@@ -22,6 +22,49 @@ function analyzePose(landmarks) {
   return "✅ 姿勢良好，可定期保養";
 }
 
+function sendPoseData(landmarks) {
+  const poseData = landmarks.map(lm => ({
+    x: lm.x,
+    y: lm.y,
+    z: lm.z,
+    visibility: lm.visibility,
+  }));
+
+  const payload = {
+    user_id: 'test_user',  // 可日後由登入系統決定
+    timestamp: new Date().toISOString(),
+    pose: poseData,
+  };
+
+  fetch('http://<你的後端 IP>:8000/api/pose/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Failed to upload");
+    }
+    console.log("✅ Pose data uploaded");
+  })
+  .catch(err => {
+    console.error("❌ Upload error:", err);
+  });
+}
+
+let lastUploadTime = 0;
+
+function shouldUpload() {
+  const now = Date.now();
+  if (now - lastUploadTime > 5000) {  // 每 5 秒最多上傳一次
+    lastUploadTime = now;
+    return true;
+  }
+  return false;
+}
+
 // ✅ 修正這一行：直接用 Pose 而不是 Pose.Pose
 const pose = new Pose({
   locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5/${file}`
@@ -45,6 +88,11 @@ pose.onResults(results => {
 
     const msg = analyzePose(results.poseLandmarks);
     resultDiv.innerText = msg;
+
+    // 🔄 每次偵測都上傳（你可加個計數器改成每5秒上傳一次）
+    if (shouldUpload()) {
+        sendPoseData(results.poseLandmarks);
+    }
   }
 });
 
